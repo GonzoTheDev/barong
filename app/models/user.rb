@@ -4,6 +4,8 @@
 class User < ApplicationRecord
   acts_as_eventable prefix: 'user', on: %i[create update]
 
+  belongs_to :platform, optional: true
+
   has_secure_password
 
   has_many  :profiles,            dependent: :destroy
@@ -20,7 +22,7 @@ class User < ApplicationRecord
   validate :role_exists
   validate :referral_exists
   validates :data, data_is_json: true
-  validates :email,       email: true, presence: true, uniqueness: true
+  validates :email,       email: true, presence: true
   validates :uid,         presence: true, uniqueness: true
   validates :password,    presence: true, if: :should_validate?
   validate  :validate_pass!
@@ -165,7 +167,7 @@ class User < ApplicationRecord
   end
 
   def as_payload
-    as_json(only: %i[uid email referral_id role level state])
+    as_json(only: %i[uid email referral_id platform_id role level state])
   end
 
   def language
@@ -194,7 +196,7 @@ class User < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20210218135634
+# Schema version: 20210315090451
 #
 # Table name: users
 #
@@ -208,11 +210,13 @@ end
 #  otp             :boolean          default(FALSE)
 #  state           :string(255)      default("pending"), not null
 #  referral_id     :bigint
+#  platform_id     :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
 # Indexes
 #
-#  index_users_on_email  (email) UNIQUE
-#  index_users_on_uid    (uid) UNIQUE
+#  index_users_on_email                  (email) UNIQUE
+#  index_users_on_platform_id_and_email  (platform_id,email) UNIQUE
+#  index_users_on_uid                    (uid) UNIQUE
 #

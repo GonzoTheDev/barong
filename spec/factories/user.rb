@@ -32,5 +32,8 @@ FactoryBot.define do
         create(:document, user: user)
       end
     end
+
+    # TODO
+    # Add platform trait
   end
 end
