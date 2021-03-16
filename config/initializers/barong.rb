@@ -42,7 +42,7 @@ Barong::App.define do |config|
   # General configuration ---------------------------------------------
   # https://www.openware.com/sdk/docs/barong/configuration.html#general-configuration
   config.set(:app_name, 'Barong')
-  config.set(:domain, 'openware.com')
+  config.set(:domain, 'cryptx.trade')
   config.set(:uid_prefix, 'ID', regex: /^[A-z]{2,6}$/)
   config.set(:session_name, '_barong_session')
   config.set(:session_expire_time, '1800', type: :integer)
